@@ -25,15 +25,19 @@ public class GenerateDataClass
 
     private String className = null;
     private String csvFilePath = null;
+    
+    // delimiter is the field separator symbol in a data file,
+    // for example in CSV it is ","
     private String delimiter = null;
     private String tagValue = null;
 
+    // package-name is for the generate JavaBeen class
     private String packageName = null;
     private String importStatements = null;
     private String fields = null;
     private String methods = null;
 
-    //List of data type and its value to generate JavaBean class
+    //List of data types and its value to generate JavaBean class
     ArrayList<JavaBean> javaBeans = new ArrayList<JavaBean>();
 
     /**
@@ -166,18 +170,24 @@ public class GenerateDataClass
         String newClassBody_3 = newClassBody_2.replaceAll("@", methods);
         String newClassBody_4 = newClassBody_3.replaceAll("#", fields);
 
-
-
         try
         {
+        	String out = className + ".java";
+        	
             Writer writer = new BufferedWriter(new OutputStreamWriter(
-                    new FileOutputStream(className + ".java"), "utf-8"));
+                    new FileOutputStream(out), "utf-8"));
             writer.write(newClassBody_4);
             writer.close();
         }
         catch (Exception e)
         {
             System.out.println("Cannot write file: " + e.getMessage());
+        }
+        finally
+        {
+        	// Give some information to a user about successful generation.
+        	System.out.println("The JavaBeen class was seccesfully generated.");
+        	System.out.println("It was saved into the current dericroty.");
         }
     }
 

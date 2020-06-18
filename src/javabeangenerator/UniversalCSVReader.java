@@ -43,7 +43,7 @@ public class UniversalCSVReader
     {
         this.fileName = fileName;
     }
-
+    
     //Reading file records
     public void readFile()
     {
@@ -54,8 +54,10 @@ public class UniversalCSVReader
         String[] fieldNames = null;
 
         //==============================================================//
-        String tempFileName = "rsc\\csv\\" + fileName;
-        File file = new File(tempFileName).getAbsoluteFile();
+        //String tempFileName = "rsc\\csv\\" + fileName;
+        //File file = new File(tempFileName).getAbsoluteFile();
+
+        File file = new File(fileName);
         //System.out.println("FILE PATH: " + file.toString());
 
         //==============================================================//
@@ -98,7 +100,6 @@ public class UniversalCSVReader
                     {
                         //Set data in parser object
                         parser.setData(data[i]);
-
 
                         //Remove spaces from Field Names
                         String tmp_fieldName = null;
