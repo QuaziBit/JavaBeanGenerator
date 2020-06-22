@@ -1,4 +1,4 @@
-package javabeangenerator;
+package quazibit.javabeangenerator;
 
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
@@ -40,6 +40,10 @@ public class GenerateDataClass
     //List of data types and its value to generate JavaBean class
     ArrayList<JavaBean> javaBeans = new ArrayList<JavaBean>();
 
+    private String logOutput = "";
+    
+    private UniversalCSVReader csv = null;
+    
     /**
      * inputCSVFile should be in the same folder as this java class
      * @param inputCSVFile String
@@ -102,7 +106,7 @@ public class GenerateDataClass
         String tmpSetMethod = "";
         //=====================================================================//
 
-        UniversalCSVReader csv = new UniversalCSVReader(inputCSVFile);
+        csv = new UniversalCSVReader(inputCSVFile);
         csv.readFile();
 
         int numOfFields = csv.getNumOfFields();
@@ -172,6 +176,8 @@ public class GenerateDataClass
 
         try
         {
+        	logOutput = newClassBody_4;
+        	
         	String out = className + ".java";
         	
             Writer writer = new BufferedWriter(new OutputStreamWriter(
@@ -182,17 +188,32 @@ public class GenerateDataClass
         catch (Exception e)
         {
             System.out.println("Cannot write file: " + e.getMessage());
+            
+            logOutput = "Cannot write file: " + e.getMessage();
         }
         finally
         {
         	// Give some information to a user about successful generation.
         	System.out.println("The JavaBeen class was seccesfully generated.");
         	System.out.println("It was saved into the current dericroty.");
+        	
+        	logOutput += "The JavaBeen class was seccesfully generated.\n";
+        	logOutput += "It was saved into the current dericroty.\n";
         }
     }
 
+    public UniversalCSVReader getUniversalCSVReader()
+    {
+    	return csv;
+    }
+    
     public void setImportStatements(String importStatements)
     {
         this.importStatements = importStatements;
+    }
+    
+    public String getLogOutput()
+    {
+    	return logOutput;
     }
 }

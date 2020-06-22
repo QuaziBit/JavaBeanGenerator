@@ -1,4 +1,4 @@
-package javabeangenerator;
+package quazibit.javabeangenerator;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,6 +15,13 @@ public class UniversalCSVReader
     //Storing fileName
     private String fileName = null;
     private String absoluteFilePath = null;
+    
+    private DataParser parser = null;
+    
+    //counter used to ignore first line
+    private int counter = 0;
+    
+    private String[] fieldNames = null;
 
     //delimiter
     private char delimiter = ',';
@@ -23,6 +30,8 @@ public class UniversalCSVReader
     ArrayList<JavaBean> javaBeans = new ArrayList<JavaBean>();
 
     private int numOfFields = 0;
+    
+    private String logOutput = "";
 
     /**
      * Accepts absolute file path and custom delimiter
@@ -47,11 +56,7 @@ public class UniversalCSVReader
     //Reading file records
     public void readFile()
     {
-        DataParser parser = new DataParser();
-
-        //counter used to ignore first line
-        int counter = 0;
-        String[] fieldNames = null;
+        parser = new DataParser();
 
         //==============================================================//
         //String tempFileName = "rsc\\csv\\" + fileName;
@@ -76,58 +81,9 @@ public class UniversalCSVReader
             String line = null;
             while ((line = bufferedReader.readLine()) != null)
             {
-                //Split input line
-                String[] data = line.split(",");
-
-                //count number of fields
-                numOfFields = data.length;
-
-                //Get fields names
-                if(counter == 0)
-                {
-                    //Size is: (n + 1)
-                    fieldNames = new String[numOfFields + 1];
-
-                    for(int i = 0; i < data.length; i++)
-                    {
-                        fieldNames[i] = data[i];
-                    }
-                }
-
-                if(data.length > 1 && counter > 0)
-                {
-                    for(int i = 0; i < data.length; i++)
-                    {
-                        //Set data in parser object
-                        parser.setData(data[i]);
-
-                        //Remove spaces from Field Names
-                        String tmp_fieldName = null;
-                        if(fieldNames[i] != null)
-                        {
-                            if(fieldNames[i].contains(" "))
-                            {
-                                tmp_fieldName = fieldNames[i].replaceAll("\\s+","");
-                            }
-                            else
-                            {
-                                tmp_fieldName = fieldNames[i];
-                            }
-                        }
-                        //System.out.println("TEST: " + tmp_fieldName);
-
-
-                        JavaBean jb = new JavaBean(parser.dataType(), tmp_fieldName, data[i]);
-                        //System.out.println("index i: " + i + " --- Value: " + fieldNames[i]);
-                        javaBeans.add(jb);
-
-                    }
-                    System.out.println("----------------------");
-                }
-
-                counter++;
-
+            	startParsing(line);
             }
+            //*************************************************************//
 
             //Close bufferedReader
             bufferedReader.close();
@@ -138,6 +94,64 @@ public class UniversalCSVReader
         }
     }
 
+    private void startParsing(String line)
+    {
+        //Split input line
+        String[] data = line.split(",");
+
+        //count number of fields
+        numOfFields = data.length;
+
+        //Get fields names
+        if(counter == 0)
+        {
+            //Size is: (n + 1)
+            fieldNames = new String[numOfFields + 1];
+
+            for(int i = 0; i < data.length; i++)
+            {
+                fieldNames[i] = data[i];
+            }
+        }
+
+        if(data.length > 1 && counter > 0)
+        {
+            for(int i = 0; i < data.length; i++)
+            {
+                //Set data in parser object
+                parser.setData(data[i]);
+
+                //Remove spaces from Field Names
+                String tmp_fieldName = null;
+                if(fieldNames[i] != null)
+                {
+                    if(fieldNames[i].contains(" "))
+                    {
+                        tmp_fieldName = fieldNames[i].replaceAll("\\s+","");
+                    }
+                    else
+                    {
+                        tmp_fieldName = fieldNames[i];
+                    }
+                }
+                //System.out.println("TEST: " + tmp_fieldName);
+
+                JavaBean jb = new JavaBean(parser.dataType(), tmp_fieldName, data[i]);
+                // System.out.println("index i: " + i + " type: " + parser.dataType() +  " --- Value: " + fieldNames[i]);
+                javaBeans.add(jb);
+
+            }
+            System.out.println("----------------------");
+        }
+        
+        counter++;
+    }
+    
+    public DataParser getDataParser()
+    {
+    	return parser;
+    }
+    
     public int getNumOfFields()
     {
         return numOfFields;
@@ -146,5 +160,10 @@ public class UniversalCSVReader
     public ArrayList<JavaBean> getJavaBeans()
     {
         return javaBeans;
+    }
+    
+    public String getLogOutput()
+    {
+    	return logOutput;
     }
 }

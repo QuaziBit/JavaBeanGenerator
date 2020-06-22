@@ -1,4 +1,4 @@
-package javabeangenerator;
+package quazibit.javabeangenerator;
 
 /**
  * Date: 11-16-2017 10:00 pm

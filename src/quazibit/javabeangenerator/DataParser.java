@@ -1,4 +1,4 @@
-package javabeangenerator;
+package quazibit.javabeangenerator;
 
 import java.awt.*;
 import java.text.DateFormat;
@@ -13,6 +13,8 @@ import java.util.Date;
 public class DataParser
 {
     private String data = null;
+    
+    private String logOutput = "";
 
     /**
      * Default constructor
@@ -87,6 +89,8 @@ public class DataParser
         catch (NumberFormatException e)
         {
             System.out.println("Parsing error: " + e.getMessage());
+            
+            logOutput += "Parsing error: " + e.getMessage() + "\n";
         }
 
         return result;
@@ -109,6 +113,8 @@ public class DataParser
         catch (NumberFormatException e)
         {
             System.out.println("[CharacterParse]: Parsing error: " + e.getMessage());
+            
+            logOutput += "[CharacterParse]: Parsing error: " + e.getMessage() + "\n";
         }
 
         return isParsable;
@@ -131,6 +137,8 @@ public class DataParser
         catch (NumberFormatException e)
         {
             System.out.println("[StringParse]: Parsing error: " + e.getMessage());
+            
+            logOutput += "[StringParse]: Parsing error: " + e.getMessage() + "\n";
         }
 
         return isParsable;
@@ -153,6 +161,8 @@ public class DataParser
         catch (NumberFormatException e)
         {
             System.out.println("[BooleanParse]: Parsing error: " + e.getMessage());
+            
+            logOutput += "[BooleanParse]: Parsing error: " + e.getMessage() + "\n";
         }
 
         return isParsable;
@@ -175,6 +185,8 @@ public class DataParser
         catch (NumberFormatException e)
         {
             System.out.println("[IntegerParse]: Parsing error: " + e.getMessage());
+            
+            logOutput += "[IntegerParse]: Parsing error: " + e.getMessage() + "\n";
         }
 
         return isParsable;
@@ -197,6 +209,8 @@ public class DataParser
         catch (NumberFormatException e)
         {
             System.out.println("[FloatParse]: Parsing error: " + e.getMessage());
+            
+            logOutput += "[FloatParse]: Parsing error: " + e.getMessage() + "\n";
         }
 
         return isParsable;
@@ -219,6 +233,8 @@ public class DataParser
         catch (NumberFormatException e)
         {
             System.out.println("[DoubleParse]: Parsing error: " + e.getMessage());
+            
+            logOutput += "[DoubleParse]: Parsing error: " + e.getMessage() + "\n";
         }
 
         return isParsable;
@@ -241,6 +257,8 @@ public class DataParser
         catch (NumberFormatException e)
         {
             System.out.println("[LongParse]: Parsing error: " + e.getMessage());
+            
+            logOutput += "[LongParse]: Parsing error: " + e.getMessage() + "\n";
         }
 
         return isParsable;
@@ -263,7 +281,9 @@ public class DataParser
         }
         catch (ParseException e)
         {
-            System.out.println("[LongParse]: Parsing error: " + e.getMessage());
+            System.out.println("[DateParse]: Parsing error: " + e.getMessage());
+            
+            logOutput += "[DateParse]: Parsing error: " + e.getMessage() + "\n";
         }
 
         return isParsable;
@@ -295,11 +315,15 @@ public class DataParser
         }
         catch (IllegalAccessException e)
         {
-            System.out.println("[1] [LongParse]: Parsing error: " + e.getMessage());
+            System.out.println("[1] [ColorParse]: Parsing error: " + e.getMessage());
+            
+            logOutput += "[1] [ColorParse]: Parsing error: " + e.getMessage() + "\n";
         }
         catch (NoSuchFieldException e)
         {
-            System.out.println("[2] [LongParse]: Parsing error: " + e.getMessage());
+            System.out.println("[2] [ColorParse]: Parsing error: " + e.getMessage());
+            
+            logOutput += "[2] [ColorParse]: Parsing error: " + e.getMessage() + "\n";
         }
 
         return isParsable;
@@ -312,5 +336,10 @@ public class DataParser
     public void setData(String data)
     {
         this.data = data;
+    }
+    
+    public String getLogOutput()
+    {
+    	return logOutput;
     }
 }

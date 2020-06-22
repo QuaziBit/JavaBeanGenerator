@@ -40,7 +40,9 @@ You can find example of CSV file in the "rsc" folder.
 ## How to run it
  * Download data.csv file that is in /rsc/csv/data.csv
  * Download JavaBeenGenerator.jar that is located in the jar folder
- * Terminal: java -jar JavaBeenGenerator.jar /rsc/csv/data.csv
+ * Terminal: java -jar JavaBeenGenerator.jar console "relative file path to the .jar file"
  * Output should be in the directory where you did run this application with the name Data.java
+ * Or you can run it as GUI application
+ * Here is demo: [link](https://youtu.be/LeiefK2WePw)
 
 ## Continue working on this project
